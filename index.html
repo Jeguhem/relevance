@@ -38,10 +38,100 @@
         <p id="r" class="text-[80px] -rotate-90 font-bold">R</p>
       </div>
     </div>
+    <div
+      id="sub-text"
+      class="absolute left-[57%] top-[32%] text-white text-[30px] font-medium"
+    >
+      Crafting
+    </div>
+    <div
+      id="text"
+      style="
+        position: absolute;
+        top: 57%;
+        left: 40%;
+        transform: translate(-50%, -50%);
+        font-size: 84px;
+        font-weight: 600;
+        color: white;
+      "
+    >
+      Relevance
+    </div>
+    <div
+      id="footer-text"
+      class="absolute left-[40%] bottom-[10%] text-white text-[25px] font-medium"
+    >
+      Made by Jeguhem
+    </div>
+
+    <button
+      id="button"
+      class="absolute opacity-0 bg-[#1E1E1E] text-[12px] text-white rounded-xl hover:bg-black top-[4.5%] right-[2%] px-3 py-2"
+    >
+      <a href="https://femiomotowa.vercel.app/" target="_blank" class=""
+        >View my Portfolio</a
+      >
+    </button>
+
+    <div
+      id="restart"
+      class="text-[20px] text-white absolute bottom-[5%] left-[5%]"
+    >
+      Press "R" to restart
+    </div>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "r" || event.key === "R") {
+            console.log("The 'R' key was pressed!");
+            location.reload();
+          }
+        });
         const timeline = gsap.timeline();
+
+        const textElement = document.querySelector("#text");
+        const subTextElement = document.querySelector("#sub-text");
+        const footerTextElement = document.querySelector("#footer-text");
+
+        // Split text into spans for each character
+        const characters = textElement.textContent.split("").map((char) => {
+          const span = document.createElement("span");
+          span.textContent = char === " " ? "\u00A0" : char; // Preserve spaces
+          return span;
+        });
+
+        //split subtext into spans for each character
+        const subCharacters = subTextElement.textContent
+          .split("")
+          .map((char) => {
+            const span = document.createElement("span");
+            span.textContent = char === " " ? "\u00A0" : char; // Preserve spaces
+            return span;
+          });
+
+        //split foottext into spans for each character
+        const footerCharacters = footerTextElement.textContent
+          .split("")
+          .map((char) => {
+            const span = document.createElement("span");
+            span.textContent = char === " " ? "\u00A0" : char; // Preserve spaces
+            return span;
+          });
+
+        // Clear the original text and append spans
+        textElement.textContent = "";
+        subTextElement.textContent = "";
+        footerTextElement.textContent = "";
+
+        characters.forEach((charSpan) => textElement.appendChild(charSpan));
+        subCharacters.forEach((charSpan) =>
+          subTextElement.appendChild(charSpan)
+        );
+        footerCharacters.forEach((charSpan) =>
+          footerTextElement.appendChild(charSpan)
+        );
 
         timeline.to("#bg", {
           backgroundPosition: "right center",
@@ -84,11 +174,15 @@
           "<"
         );
         timeline
-          .to("#bg", {
-            left: "+=10%",
-            duration: 1,
-            ease: "power2.inOut",
-          })
+          .to(
+            "#bg",
+            {
+              left: "+=10%",
+              duration: 1,
+              ease: "power2.inOut",
+            },
+            "-=0.5"
+          )
           .to("#r", {
             rotation: 90,
             scale: 3,
@@ -112,17 +206,93 @@
             duration: 1,
           })
           .to(
-            "#logo",
+            "#r",
             {
-              // left: "-=30%",
-              x: -2,
-              durartion: 0.5,
-              // y: 100,
+              rotation: -90,
+              x: 130,
+              y: -280,
+              scale: 6,
+              duration: 1,
+            },
+            "<"
+          )
+          .to(
+            "#cross",
+            {
+              rotation: 0,
+              x: 5,
+              y: -520,
+              scale: 1,
+              duration: 1,
             },
             "<"
           );
 
-        timeline.to("#cross");
+        timeline
+          .to("#bg", {
+            left: "+75%",
+            duration: 2,
+            backgroundSize: "none",
+            ease: "linear",
+          })
+          .to("#r", { opacity: 0, duration: 1, rotate: 360, scale: 3 }, "<");
+
+        timeline
+          .from(
+            "#text span",
+            {
+              opacity: 0,
+              y: 120,
+              stagger: 0.2, // Animate each word
+              duration: 0.5,
+              ease: "power2.out",
+              //   ease: "back.out(1.7)",
+            },
+            "-=3.2"
+          )
+          .from(
+            "#sub-text span",
+            {
+              opacity: 0,
+              y: -420,
+              stagger: 0.2, // Animate each word
+              duration: 0.5,
+              ease: "power2.out",
+            },
+            "-=2.2"
+          );
+
+        timeline
+          .to("#bg", { left: "+40%", duration: 0.5, ease: "linear" })
+          .to(
+            "#r",
+            { opacity: 1, x: -640, y: -620, fontweight: 500, scale: 0.5 },
+            "<"
+          )
+          .to("#cross", { opacity: 1, x: 580, scale: 0.5 }, "<")
+          .to("#button", { opacity: 1 });
+
+        timeline.from(
+          "#footer-text span",
+          {
+            opacity: 0,
+            y: 320,
+            stagger: 0.2, // Animate each word
+            duration: 0.5,
+            ease: "bounce.inout",
+            //   ease: "back.out(1.7)",
+          },
+          "-=1"
+        );
+
+        timeline.from("#restart", {
+          opacity: 0,
+          y: -20, // Move the element up by 20px
+          duration: 0.6, // Duration for one bounce // Ensure opacity stays at 1
+          ease: "power1.inOut", // Smooth bounce easing
+          repeat: -1, // Repeat indefinitely
+          yoyo: true,
+        });
       });
     </script>
   </body>
