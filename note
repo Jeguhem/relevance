@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--1 font, 2 gsap, 3 tailwindcss -->
+    <link href="https://fonts.cdnfonts.com/css/taygiacs" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Relevance</title>
+
+    <style>
+      html,
+      body {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-[#1E1E1E] m-auto max-h-[100vh] overflow-hidden"
+    style="font-family: 'Taygiacs', sans-serif"
+  >
+    <div
+      id="bg"
+      class="h-screen bg-no-repeat relative text-white"
+      style="background-image: url('/images/Background.svg')"
+    >
+      <div
+        id="logo"
+        class="bottom-0 right-0 absolute w-[262px] flex flex-col items-center"
+      >
+        <img
+          id="cross"
+          src="/images/cross.svg"
+          alt=""
+          class="w-[64px] h-[64px]"
+        />
+        <p id="r" class="text-[80px] -rotate-90 font-bold">R</p>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const timeline = gsap.timeline();
+
+        timeline.to("#bg", {
+          backgroundPosition: "right center",
+          duration: 3.5,
+          ease: "slow(0.7,0.7,false)",
+          delay: 1,
+        });
+
+        timeline.to(
+          "#logo",
+          {
+            x: "-83vw", // Move the content left off-screen
+            duration: 2.5,
+            ease: "power2.out",
+          },
+          "<" // Start this animation at the same time as the previous one
+        );
+
+        timeline.to(
+          "#r",
+          {
+            rotation: 0,
+            scale: 1.4,
+            y: -30,
+            duration: 1,
+            ease: "power2.out",
+          },
+          "-=2.5"
+        );
+
+        timeline.to(
+          "#cross",
+          {
+            rotation: 45,
+            scale: 1.4,
+            x: 60,
+            y: -45,
+            duration: 0.5,
+          },
+          "<"
+        );
+
+        timeline.to("#bg", { width: "-=10%" });
+      });
+    </script>
+  </body>
+</html>
