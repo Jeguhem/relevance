@@ -1,2 +1,2 @@
 # relevance animation
- Great manimation created by jeguhem with gsap
+ Great animation created by jeguhem with gsap
